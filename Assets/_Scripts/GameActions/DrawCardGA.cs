@@ -2,7 +2,7 @@ public class DrawCardGA : GameAction
 {
     public int Amount { get; set; }
 
-    public void DrawCard(int count)
+    public DrawCardGA(int count)
     {
         Amount = count;
     }

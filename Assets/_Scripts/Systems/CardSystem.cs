@@ -50,8 +50,7 @@ public class CardSystem : Singleton<CardSystem>
 
     private void EnemyTurnPostReaction(EnemyTurnGA gameAction)
     {
-        DrawCardGA drawCardGa = new();
-        drawCardGa.DrawCard(5);
+        DrawCardGA drawCardGa = new(5);
         ActionSystem.Instance.AddReaction(drawCardGa);
     }
 
