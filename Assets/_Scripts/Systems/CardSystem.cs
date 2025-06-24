@@ -29,6 +29,8 @@ public class CardSystem : Singleton<CardSystem>
     {
         ActionSystem.AttachPerformer<DrawCardGA>(DrawCardPerformer);
         ActionSystem.AttachPerformer<DiscardAllCardGA>(DiscardAllCardPerformer);
+        ActionSystem.AttachPerformer<PlayCardGA>(PlayCardPerformer);
+
         ActionSystem.SubscribeReaction<EnemyTurnGA>(EnemyTurnPreReaction, ReactionTiming.Pre);
         ActionSystem.SubscribeReaction<EnemyTurnGA>(EnemyTurnPostReaction, ReactionTiming.Post);
     }
@@ -37,6 +39,8 @@ public class CardSystem : Singleton<CardSystem>
     {
         ActionSystem.DetachPerformer<DrawCardGA>();
         ActionSystem.DetachPerformer<DiscardAllCardGA>();
+        ActionSystem.DetachPerformer<PlayCardGA>();
+
         ActionSystem.UnsubscribeReaction<EnemyTurnGA>(EnemyTurnPreReaction, ReactionTiming.Pre);
         ActionSystem.UnsubscribeReaction<EnemyTurnGA>(EnemyTurnPostReaction, ReactionTiming.Post);
     }
@@ -79,6 +83,14 @@ public class CardSystem : Singleton<CardSystem>
         hand.Clear();
     }
 
+    private IEnumerator PlayCardPerformer(PlayCardGA playCardGA)
+    {
+        hand.Remove(playCardGA.Card);
+        var cardView = handView.RemoveCard(playCardGA.Card);
+        yield return DiscardCard(cardView);
+    }
+
+    //#endregion
     private IEnumerator DiscardCard(CardView cardView)
     {
         cardView.transform.DOMove(Vector3.zero, .15f);

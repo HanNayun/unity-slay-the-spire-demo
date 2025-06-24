@@ -20,6 +20,9 @@ public class CardView : MonoBehaviour
     [SerializeField]
     private GameObject wrapper;
 
+    [SerializeField]
+    private LayerMask dropLayer;
+
     public Card Card { get; private set; }
     private Vector3 dragStartPosition;
     private Quaternion dragStartRotation;
@@ -72,13 +75,10 @@ public class CardView : MonoBehaviour
     private void OnMouseUp()
     {
         if (!InteractionSystem.Instance.CanPlayerInteract()) return;
-        if (Physics.Raycast(transform.position, Vector3.forward, out var hit, 10f))
+        if (Physics.Raycast(transform.position, Vector3.forward, out var hit, 10f, dropLayer))
         {
-            if (hit.collider.TryGetComponent(out CardView _))
-            {
-                transform.position = dragStartPosition;
-                transform.rotation = dragStartRotation;
-            }
+            PlayCardGA playCardGA = new(Card);
+            ActionSystem.Instance.Perform(playCardGA);
         }
         else
         {

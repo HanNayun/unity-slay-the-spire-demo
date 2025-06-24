@@ -228,6 +228,9 @@ MonoBehaviour:
   description: {fileID: 8063222364211570779}
   image: {fileID: 2192612261945310463}
   wrapper: {fileID: 4238007825305942778}
+  dropLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!210 &3103559786023567290
 SortingGroup:
   m_ObjectHideFlags: 0
