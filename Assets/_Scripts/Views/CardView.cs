@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -29,5 +30,18 @@ public class CardView : MonoBehaviour
         description.text = card.Description;
         image.sprite = card.Image;
         wrapper.SetActive(true);
+    }
+
+    private void OnMouseEnter()
+    {
+        var position = new Vector3(transform.position.x, -2, 0);
+        CardHoverSystem.Instance.ShowCardView(Card, position);
+        wrapper.SetActive(false);
+    }
+
+    private void OnMouseExit()
+    {
+        wrapper.SetActive(true);
+        CardHoverSystem.Instance.Hide();
     }
 }
