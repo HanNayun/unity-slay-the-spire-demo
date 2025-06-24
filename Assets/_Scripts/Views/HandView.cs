@@ -29,9 +29,8 @@ public class HandView : MonoBehaviour
         {
             float p = firstCardPosition + i * cardSpacing;
             Vector3 splinePosition = spline.EvaluatePosition(p);
-            Vector3 forward = spline.EvaluateTangent(p);
-            Vector3 up = spline.EvaluateUpVector(p);
-            Quaternion rotation = Quaternion.LookRotation(-up, Vector3.Cross(-up, forward).normalized);
+            Vector3 normal = spline.EvaluateUpVector(p);
+            Quaternion rotation = Quaternion.LookRotation(-Vector3.back, normal);
             CardView card = cards[i];
             card.transform.DOMove(transform.position + splinePosition + .01f * i * Vector3.back, durationSecond);
             card.transform.DORotateQuaternion(rotation, durationSecond);

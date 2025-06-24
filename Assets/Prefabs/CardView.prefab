@@ -186,8 +186,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6757888929637900678}
   - component: {fileID: 8355199453285422026}
-  - component: {fileID: 796917527337777202}
   - component: {fileID: 3103559786023567290}
+  - component: {fileID: 796917527337777202}
   m_Layer: 0
   m_Name: CardView
   m_TagString: Untagged
@@ -203,7 +203,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 659796957434517815}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -228,6 +228,18 @@ MonoBehaviour:
   description: {fileID: 8063222364211570779}
   image: {fileID: 2192612261945310463}
   wrapper: {fileID: 4238007825305942778}
+--- !u!210 &3103559786023567290
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 659796957434517815}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
 --- !u!65 &796917527337777202
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -249,18 +261,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3.6, y: 4.8, z: 0.01}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!210 &3103559786023567290
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 659796957434517815}
-  m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_SortAtRoot: 0
 --- !u!1 &2030556347400957667
 GameObject:
   m_ObjectHideFlags: 0

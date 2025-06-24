@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dadef3be28fb40cda1d65c7ff28bec5, type: 3}
   m_Name: Fireball
   m_EditorClassIdentifier: 
-  <Mana>k__BackingField: 0
+  <Mana>k__BackingField: 2
   <Title>k__BackingField: Fireball
   <Description>k__BackingField: Deal 4 damage to an enemy
   <Image>k__BackingField: {fileID: 21300000, guid: b317009564ad34be59b682f92e966bda, type: 3}
