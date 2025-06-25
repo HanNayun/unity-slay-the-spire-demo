@@ -1,3 +1,4 @@
+using DG.Tweening;
 using TMPro;
 using Unity.Mathematics.Geometry;
 using UnityEngine;
@@ -22,6 +23,18 @@ public class CombatantView : MonoBehaviour
         spriteRenderer.size = new Vector2(1, 1);
         UpdateHealthText();
         UpdateSpriteSize();
+    }
+
+    public void Damage(int damage)
+    {
+        CurrentHealth -= damage;
+        if (CurrentHealth <= 0)
+        {
+            CurrentHealth = 0;
+        }
+
+        transform.DOShakePosition(0.2f, 0.5f);
+        UpdateHealthText();
     }
 
     private void UpdateHealthText()

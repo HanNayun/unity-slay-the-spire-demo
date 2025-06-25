@@ -3,10 +3,10 @@ using UnityEngine;
 public class HeroSystem : Singleton<HeroSystem>
 {
     [SerializeField]
-    private HeroView heroView;
+    public HeroView HeroView;
 
     public void Setup(HeroData data)
     {
-        heroView.Setup(data);
+        HeroView.Setup(data);
     }
 }

@@ -1,7 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Rendering.Universal.ShaderGUI;
+using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
 using UnityEngine;
 
 public class EnemySystem : Singleton<EnemySystem>
@@ -12,25 +13,41 @@ public class EnemySystem : Singleton<EnemySystem>
     private void OnEnable()
     {
         ActionSystem.AttachPerformer<EnemyTurnGA>(EnemyTurnPerformer);
+        ActionSystem.AttachPerformer<AttackHeroGA>(EnemyAttackPerformer);
     }
 
     private void OnDisable()
     {
         ActionSystem.DetachPerformer<EnemyTurnGA>();
+        ActionSystem.DetachPerformer<AttackHeroGA>();
     }
 
     public void Setup(List<EnemyData> enemyDatas)
     {
-        foreach (var enemyData in enemyDatas)
-        {
-            enemyBoardView.AddEnemy(enemyData);
-        }
+        foreach (EnemyData enemyData in enemyDatas) enemyBoardView.AddEnemy(enemyData);
     }
 
     private IEnumerator EnemyTurnPerformer(EnemyTurnGA enemyTurnGa)
     {
-        Debug.Log("Enemy Turn");
-        yield return new WaitForSeconds(2f);
-        Debug.Log("End Enemy Turn");
+        foreach (EnemyView enemy in enemyBoardView.EnemyViews)
+        {
+            AttackHeroGA attackGA = new(enemy);
+            ActionSystem.Instance.AddReaction(attackGA);
+        }
+
+        yield return null;
+    }
+
+    private IEnumerator EnemyAttackPerformer(AttackHeroGA attackGA)
+    {
+        EnemyView attacker = attackGA.Attacker;
+        TweenerCore<Vector3, Vector3, VectorOptions> tween =
+            attacker.transform.DOMoveX(attacker.transform.position.x - 1f, .15f);
+        yield return tween.WaitForCompletion();
+        tween = attacker.transform.DOMoveX(attacker.transform.position.x + 1f, .15f);
+        yield return tween.WaitForCompletion();
+
+        DealDamageGA dealDamageGA = new(attacker.AttackPower, new List<CombatantView> { HeroSystem.Instance.HeroView });
+        ActionSystem.Instance.AddReaction(dealDamageGA);
     }
 }

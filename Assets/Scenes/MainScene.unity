@@ -198,6 +198,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardViewPrefab: {fileID: 8355199453285422026, guid: f9114e3258e894ec19ed56c7c6ab224f, type: 3}
+--- !u!1 &181725506
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 181725507}
+  m_Layer: 0
+  m_Name: DealDamageSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &181725507
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 181725506}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1814167880}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &181852590
 GameObject:
   m_ObjectHideFlags: 0
@@ -2020,6 +2051,7 @@ Transform:
   - {fileID: 704796771}
   - {fileID: 2128996011}
   - {fileID: 1017765031}
+  - {fileID: 181725507}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1843231633
@@ -2561,7 +2593,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f13b636fd1b44e768edd46d0362a2c66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heroView: {fileID: 228230892}
+  HeroView: {fileID: 228230892}
 --- !u!1 &2132255497
 GameObject:
   m_ObjectHideFlags: 0
