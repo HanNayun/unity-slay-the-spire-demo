@@ -90,9 +90,18 @@ public class CardSystem : Singleton<CardSystem>
         hand.Remove(playCardGA.Card);
         var cardView = handView.RemoveCard(playCardGA.Card);
         yield return DiscardCard(cardView);
+        foreach (Effect cardEffect in playCardGA.Card.Effects)
+        {
+            ActionSystem.Instance.AddReaction(new PerformEffectGA(cardEffect));
+        }
     }
 
     //#endregion
+    /// <summary>
+    /// Make sure <see cref="drawPile"/> is not empty when before draw
+    /// </summary>
+    /// <param name="cardView"></param>
+    /// <returns></returns>
     private IEnumerator DiscardCard(CardView cardView)
     {
         cardView.transform.DOMove(Vector3.zero, .15f);
