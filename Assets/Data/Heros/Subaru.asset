@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1be9594fa5e64a1cb2b63d3732e91626, type: 3}
   m_Name: Subaru
   m_EditorClassIdentifier: 
-  <Image>k__BackingField: {fileID: 21300000, guid: 4a61bd69f75644bd8910fbf2eb8d9fed, type: 3}
+  <Image>k__BackingField: {fileID: 21300000, guid: 5196f57541fad4de3adc5d39940663ce, type: 3}
   <Health>k__BackingField: 70
   <Deck>k__BackingField:
   - {fileID: 11400000, guid: 2a725508210764158b772b713b09fefb, type: 2}

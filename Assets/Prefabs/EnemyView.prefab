@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 1.1}
-  m_SizeDelta: {x: 40, y: 5}
+  m_SizeDelta: {x: 20, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &7651142674151651517
 MeshRenderer:
@@ -129,8 +129,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 60
-  m_fontSizeBase: 60
+  m_fontSize: 36
+  m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -244,9 +244,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 818d3641469d4ac980df85db0f96ee3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthText: {fileID: 820592409875948259}
+  healthText: {fileID: 3735594086593035148}
   spriteRenderer: {fileID: 1668933660331439503}
-  attckPowerText: {fileID: 3735594086593035148}
+  attckPowerText: {fileID: 820592409875948259}
 --- !u!1001 &7784397456768857593
 PrefabInstance:
   m_ObjectHideFlags: 0
