@@ -1,14 +1,17 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Data/Enemy")]
-public class EnemyData : ScriptableObject
+namespace _Scripts.Data
 {
-    [field: SerializeField]
-    public Sprite Image { get; private set; }
+    [CreateAssetMenu(menuName = "Data/Enemy")]
+    public class EnemyData : ScriptableObject
+    {
+        [field: SerializeField]
+        public Sprite Image { get; private set; }
 
-    [field: SerializeField]
-    public int Health { get; private set; }
+        [field: SerializeField]
+        public int Health { get; private set; }
 
-    [field: SerializeField]
-    public int AttackPower { get; private set; }
+        [field: SerializeField]
+        public int AttackPower { get; private set; }
+    }
 }

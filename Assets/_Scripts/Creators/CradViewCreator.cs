@@ -1,3 +1,4 @@
+using _Scripts.Models;
 using DG.Tweening;
 using UnityEngine;
 

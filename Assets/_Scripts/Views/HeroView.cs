@@ -1,3 +1,5 @@
+using _Scripts.Data;
+
 public class HeroView : CombatantView
 {
     public void Setup(HeroData heroData)

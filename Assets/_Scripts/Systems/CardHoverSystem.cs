@@ -1,4 +1,5 @@
 using System;
+using _Scripts.Models;
 using UnityEngine;
 
 public class CardHoverSystem : Singleton<CardHoverSystem>

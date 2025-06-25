@@ -207,8 +207,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 181725507}
+  - component: {fileID: 181725508}
   m_Layer: 0
-  m_Name: DealDamageSystem
+  m_Name: DamageSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -229,6 +230,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1814167880}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &181725508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 181725506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 957c846a8e9943ab9d7d577253222d0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageVFX: {fileID: 5880797563127281583, guid: 265d3a5ba69981a4698ceabcedf368b0, type: 3}
 --- !u!1 &181852590
 GameObject:
   m_ObjectHideFlags: 0
@@ -2050,8 +2064,8 @@ Transform:
   - {fileID: 256057737}
   - {fileID: 704796771}
   - {fileID: 2128996011}
-  - {fileID: 1017765031}
   - {fileID: 181725507}
+  - {fileID: 1017765031}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1843231633

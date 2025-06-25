@@ -16,7 +16,15 @@ MonoBehaviour:
   <Title>k__BackingField: Fireball
   <Description>k__BackingField: Deal 4 damage to an enemy
   <Image>k__BackingField: {fileID: 21300000, guid: b317009564ad34be59b682f92e966bda, type: 3}
-  <Effects>k__BackingField: []
+  <OtherEffects>k__BackingField:
+  - <TargetMode>k__BackingField:
+      rid: -2
+    <Effect>k__BackingField:
+      rid: -2
+  <ManualTargetEffect>k__BackingField:
+    rid: -2
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

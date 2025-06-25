@@ -12,11 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dadef3be28fb40cda1d65c7ff28bec5, type: 3}
   m_Name: Arrow Rain
   m_EditorClassIdentifier: 
-  <Mana>k__BackingField: 0
-  <Title>k__BackingField: 
-  <Description>k__BackingField: 
-  <Image>k__BackingField: {fileID: 0}
-  <Effects>k__BackingField: []
+  <Mana>k__BackingField: 1
+  <Title>k__BackingField: Arrow Rain
+  <Description>k__BackingField: Deal 10 damage to All enemies
+  <Image>k__BackingField: {fileID: 21300000, guid: 199db3866bd4c436fb203d8bddfbf66d, type: 3}
+  <OtherEffects>k__BackingField:
+  - <TargetMode>k__BackingField:
+      rid: 7426072416812532035
+    <Effect>k__BackingField:
+      rid: 7426072416812532031
+  <ManualTargetEffect>k__BackingField:
+    rid: -2
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 7426072416812532031
+      type: {class: DealDamageEffect, ns: , asm: Assembly-CSharp}
+      data:
+        damageAmount: 10
+    - rid: 7426072416812532035
+      type: {class: RandomEnemyTM, ns: _Scripts.TargetModes, asm: Assembly-CSharp}
+      data: 

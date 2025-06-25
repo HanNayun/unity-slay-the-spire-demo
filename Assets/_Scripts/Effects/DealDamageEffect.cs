@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using _Scripts.Models;
 using UnityEngine;
 
 public class DealDamageEffect : Effect
@@ -6,8 +7,8 @@ public class DealDamageEffect : Effect
     [SerializeField]
     private int damageAmount;
 
-    public override GameAction GetGameAction()
+    public override GameAction GetGameAction(List<CombatantView> targets)
     {
-        return new DealDamageGA(damageAmount, new List<CombatantView>(EnemySystem.Instance.Enemies));
+        return new DealDamageGA(damageAmount, targets);
     }
 }

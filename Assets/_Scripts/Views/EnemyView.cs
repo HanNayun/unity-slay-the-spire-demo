@@ -1,3 +1,4 @@
+using _Scripts.Data;
 using TMPro;
 using UnityEngine;
 

@@ -1,9 +1,14 @@
-public class PlayCardGA : GameAction
-{
-    public Card Card { get; set; }
+using _Scripts.Models;
 
-    public PlayCardGA(Card card)
+namespace _Scripts.GameActions
+{
+    public class PlayCardGA : GameAction
     {
-        Card = card;
+        public Card Card { get; set; }
+
+        public PlayCardGA(Card card)
+        {
+            Card = card;
+        }
     }
 }

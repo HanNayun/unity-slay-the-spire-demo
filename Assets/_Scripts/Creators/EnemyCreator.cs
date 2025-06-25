@@ -1,3 +1,4 @@
+using _Scripts.Data;
 using UnityEngine;
 
 public class EnemyCreator : Singleton<EnemyCreator>

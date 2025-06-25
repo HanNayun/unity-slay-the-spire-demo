@@ -1,19 +1,24 @@
 using System.Collections.Generic;
+using _Scripts.Data;
 using UnityEngine;
 
-public class Card
+namespace _Scripts.Models
 {
-    public string Title => data.Title;
-    public string Description => data.Description;
-    public Sprite Image => data.Image;
-    public int Mana { get; private set; }
-    public List<Effect> Effects => data.Effects;
-
-    private readonly CardData data;
-
-    public Card(CardData curData)
+    public class Card
     {
-        data = curData;
-        Mana = data.Mana;
+        private readonly CardData data;
+
+        public Card(CardData curData)
+        {
+            data = curData;
+            Mana = data.Mana;
+        }
+
+        public string Title => data.Title;
+        public string Description => data.Description;
+        public Sprite Image => data.Image;
+        public int Mana { get; private set; }
+        public Effect ManualTargetEffect => data.ManualTargetEffect;
+        public List<AutoTargetEffect> OtherEffects => data.OtherEffects;
     }
 }
