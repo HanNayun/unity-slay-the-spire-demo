@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -10,16 +11,20 @@ public class EnemySystem : Singleton<EnemySystem>
     [SerializeField]
     private EnemyBoardView enemyBoardView;
 
+    public List<EnemyView> Enemies => enemyBoardView.EnemyViews;
+
     private void OnEnable()
     {
         ActionSystem.AttachPerformer<EnemyTurnGA>(EnemyTurnPerformer);
         ActionSystem.AttachPerformer<AttackHeroGA>(EnemyAttackPerformer);
+        ActionSystem.AttachPerformer<KillEnemyGA>(KillEnemyPerformer);
     }
 
     private void OnDisable()
     {
         ActionSystem.DetachPerformer<EnemyTurnGA>();
         ActionSystem.DetachPerformer<AttackHeroGA>();
+        ActionSystem.DetachPerformer<KillEnemyGA>();
     }
 
     public void Setup(List<EnemyData> enemyDatas)
@@ -49,5 +54,10 @@ public class EnemySystem : Singleton<EnemySystem>
 
         DealDamageGA dealDamageGA = new(attacker.AttackPower, new List<CombatantView> { HeroSystem.Instance.HeroView });
         ActionSystem.Instance.AddReaction(dealDamageGA);
+    }
+
+    private IEnumerator KillEnemyPerformer(KillEnemyGA killEnemyGA)
+    {
+        yield return enemyBoardView.RemoveEnemy(killEnemyGA.Target);
     }
 }

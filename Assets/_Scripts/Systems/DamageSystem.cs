@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -19,11 +18,21 @@ public class DamageSystem : Singleton<DamageSystem>
 
     private IEnumerator DealDamagePerformer(DealDamageGA ga)
     {
-        foreach (var target in ga.Targets)
+        foreach (CombatantView target in ga.Targets)
         {
             target.Damage(ga.Damage);
             Instantiate(damageVFX, target.transform.position, Quaternion.identity);
             yield return new WaitForSeconds(.15f);
+
+            if (target.CurrentHealth <= 0)
+            {
+                if (target is EnemyView enemy)
+                    ActionSystem.Instance.AddReaction(new KillEnemyGA(enemy));
+                else
+                {
+                    
+                }
+            }
         }
     }
 }
