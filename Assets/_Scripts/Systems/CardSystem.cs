@@ -68,7 +68,9 @@ public class CardSystem : Singleton<CardSystem>
         if (notDrawCount <= 0) yield break;
 
         RefillDeck();
-        for (int i = 0; i < notDrawCount; i++) yield return DrawCard();
+        var canDrawCount = Math.Min(notDrawCount, drawPile.Count);
+        for (int i = 0; i < canDrawCount; i++)
+            yield return DrawCard();
     }
 
     private IEnumerator DiscardAllCardPerformer(DiscardAllCardGA discardAllCardGa)
@@ -96,6 +98,7 @@ public class CardSystem : Singleton<CardSystem>
         cardView.transform.DOMove(Vector3.zero, .15f);
         var tween = cardView.transform.DOMove(discardPileTransform.position, .15f);
         yield return tween.WaitForCompletion();
+        discardPile.Add(cardView.Card);
         Destroy(cardView.gameObject);
     }
 
