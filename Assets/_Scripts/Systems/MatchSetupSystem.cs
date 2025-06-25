@@ -5,12 +5,12 @@ using UnityEngine;
 public class MatchSetupSystem : Singleton<MatchSetupSystem>
 {
     [SerializeField]
-    private List<CardData> deckData;
+    private HeroData heroData;
 
     private void Start()
     {
-        CardSystem.Instance.Setup(deckData);
-
+        HeroSystem.Instance.Setup(heroData);
+        CardSystem.Instance.Setup(heroData.Deck);
         ActionSystem.Instance.Perform(new RefillManaGA(),
             () => { ActionSystem.Instance.Perform(new DrawCardGA(CardSystem.BASIC_DRAW_AMOUNT)); }
         );
