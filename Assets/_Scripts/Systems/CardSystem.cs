@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class CardSystem : Singleton<CardSystem>
 {
+    public const int BASIC_DRAW_AMOUNT = 5;
+
     [SerializeField]
     private HandView handView;
 
@@ -54,8 +56,7 @@ public class CardSystem : Singleton<CardSystem>
 
     private void EnemyTurnPostReaction(EnemyTurnGA gameAction)
     {
-        DrawCardGA drawCardGa = new(5);
-        ActionSystem.Instance.AddReaction(drawCardGa);
+        ActionSystem.Instance.AddReaction(new DrawCardGA(BASIC_DRAW_AMOUNT));
     }
 
     // Performers
@@ -90,6 +91,8 @@ public class CardSystem : Singleton<CardSystem>
         hand.Remove(playCardGA.Card);
         var cardView = handView.RemoveCard(playCardGA.Card);
         yield return DiscardCard(cardView);
+
+        ActionSystem.Instance.AddReaction(new SpendManaGA(playCardGA.Card.Mana));
         foreach (Effect cardEffect in playCardGA.Card.Effects)
         {
             ActionSystem.Instance.AddReaction(new PerformEffectGA(cardEffect));

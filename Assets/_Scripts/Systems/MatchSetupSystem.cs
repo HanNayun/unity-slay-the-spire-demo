@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +10,9 @@ public class MatchSetupSystem : Singleton<MatchSetupSystem>
     private void Start()
     {
         CardSystem.Instance.Setup(deckData);
-        DrawCardGA drawCardGa = new(5);
-        ActionSystem.Instance.Perform(drawCardGa);
+
+        ActionSystem.Instance.Perform(new RefillManaGA(),
+            () => { ActionSystem.Instance.Perform(new DrawCardGA(CardSystem.BASIC_DRAW_AMOUNT)); }
+        );
     }
 }
