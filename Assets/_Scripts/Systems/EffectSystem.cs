@@ -1,7 +1,10 @@
 using System.Collections;
 using _Scripts.GameActions;
+using _Scripts.General.ActionSystem;
 using UnityEngine;
 
+namespace _Scripts.Systems
+{
 public class EffectSystem : MonoBehaviour
 {
     private void OnEnable()
@@ -16,8 +19,10 @@ public class EffectSystem : MonoBehaviour
 
     private IEnumerator PerformEffectPerformer(PerformEffectGA effectGameAction)
     {
-        GameAction gameAction = effectGameAction.Effect.GetGameAction(effectGameAction.Targets);
+        GameAction gameAction =
+            effectGameAction.Effect.GetGameAction(effectGameAction.Targets, HeroSystem.Instance.HeroView);
         ActionSystem.Instance.AddReaction(gameAction);
         yield return null;
     }
+}
 }

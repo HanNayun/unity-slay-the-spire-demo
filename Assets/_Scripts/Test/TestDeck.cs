@@ -3,6 +3,8 @@ using _Scripts.Data;
 using _Scripts.Systems;
 using UnityEngine;
 
+namespace _Scripts.Test
+{
 public class TestDeck : MonoBehaviour
 {
     [SerializeField]
@@ -12,4 +14,5 @@ public class TestDeck : MonoBehaviour
     {
         CardSystem.Instance.Setup(deckData);
     }
+}
 }

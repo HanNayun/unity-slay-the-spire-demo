@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using _Scripts.Data;
+using _Scripts.GameActions;
 using _Scripts.General;
+using _Scripts.General.ActionSystem;
+using _Scripts.Views;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using UnityEngine;
 
+namespace _Scripts.Systems
+{
 public class EnemySystem : Singleton<EnemySystem>
 {
     [SerializeField]
@@ -53,12 +58,15 @@ public class EnemySystem : Singleton<EnemySystem>
         tween = attacker.transform.DOMoveX(attacker.transform.position.x + 1f, .15f);
         yield return tween.WaitForCompletion();
 
-        DealDamageGA dealDamageGA = new(attacker.AttackPower, new List<CombatantView> { HeroSystem.Instance.HeroView });
-        ActionSystem.Instance.AddReaction(dealDamageGA);
+        DealDamageGA dealDamageReaction = new(attacker.AttackPower,
+            new List<CombatantView> { HeroSystem.Instance.HeroView },
+            attackGA.Caster);
+        ActionSystem.Instance.AddReaction(dealDamageReaction);
     }
 
     private IEnumerator KillEnemyPerformer(KillEnemyGA killEnemyGA)
     {
         yield return enemyBoardView.RemoveEnemy(killEnemyGA.Target);
     }
+}
 }

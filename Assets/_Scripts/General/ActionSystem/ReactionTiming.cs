@@ -1,5 +1,8 @@
-public enum ReactionTiming
+namespace _Scripts.General.ActionSystem
 {
-    Pre,
-    Post,
+    public enum ReactionTiming
+    {
+        Pre,
+        Post,
+    }
 }

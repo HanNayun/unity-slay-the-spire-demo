@@ -1,5 +1,5 @@
 namespace _Scripts.Systems
 {
-    public class TargetSystem
-    { }
+public class TargetSystem
+{ }
 }

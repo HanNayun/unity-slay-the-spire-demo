@@ -1,133 +1,135 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using _Scripts.General;
 
-public class ActionSystem : Singleton<ActionSystem>
+namespace _Scripts.General.ActionSystem
 {
-    private static Dictionary<Type, List<Action<GameAction>>> typeToPrevSubs = new();
-    private static Dictionary<Type, List<Action<GameAction>>> typeToPostSubs = new();
-    private static Dictionary<Type, Func<GameAction, IEnumerator>> typeToPerformer = new();
-
-    private List<GameAction> reactions;
-    public bool IsPerforming { get; private set; }
-
-    public static void AttachPerformer<T>(Func<T, IEnumerator> performer) where T : GameAction
+    public class ActionSystem : Singleton<ActionSystem>
     {
-        Type type = typeof(T);
+        private static Dictionary<Type, List<Action<GameAction>>> typeToPrevSubs = new();
+        private static Dictionary<Type, List<Action<GameAction>>> typeToPostSubs = new();
+        private static Dictionary<Type, Func<GameAction, IEnumerator>> typeToPerformer = new();
 
-        if (typeToPerformer.ContainsKey(type))
+        private List<GameAction> reactions;
+        public bool IsPerforming { get; private set; }
+
+        public static void AttachPerformer<T>(Func<T, IEnumerator> performer) where T : GameAction
         {
-            typeToPerformer[type] = wrappedPerformer;
+            Type type = typeof(T);
+
+            if (typeToPerformer.ContainsKey(type))
+            {
+                typeToPerformer[type] = wrappedPerformer;
+            }
+            else
+            {
+                typeToPerformer.Add(type, wrappedPerformer);
+            }
+
+            return;
+
+            IEnumerator wrappedPerformer(GameAction action)
+            {
+                return performer(action as T);
+            }
         }
-        else
+
+        public static void DetachPerformer<T>() where T : GameAction
         {
-            typeToPerformer.Add(type, wrappedPerformer);
+            Type type = typeof(T);
+            typeToPerformer.Remove(type);
         }
 
-        return;
-
-        IEnumerator wrappedPerformer(GameAction action)
+        public static void SubscribeReaction<T>(Action<T> reaction, ReactionTiming timing) where T : GameAction
         {
-            return performer(action as T);
+            Dictionary<Type, List<Action<GameAction>>>
+                subs = timing == ReactionTiming.Pre ? typeToPrevSubs : typeToPostSubs;
+            Type type = typeof(T);
+            subs.TryAdd(type, new List<Action<GameAction>>());
+            subs[type].Add(WrappedReaction);
+
+            return;
+
+            void WrappedReaction(GameAction action)
+            {
+                reaction(action as T);
+            }
         }
-    }
 
-    public static void DetachPerformer<T>() where T : GameAction
-    {
-        Type type = typeof(T);
-        typeToPerformer.Remove(type);
-    }
-
-    public static void SubscribeReaction<T>(Action<T> reaction, ReactionTiming timing) where T : GameAction
-    {
-        Dictionary<Type, List<Action<GameAction>>>
-            subs = timing == ReactionTiming.Pre ? typeToPrevSubs : typeToPostSubs;
-        Type type = typeof(T);
-        subs.TryAdd(type, new List<Action<GameAction>>());
-        subs[type].Add(WrappedReaction);
-
-        return;
-
-        void WrappedReaction(GameAction action)
+        public static void UnsubscribeReaction<T>(Action<T> reaction, ReactionTiming timing) where T : GameAction
         {
-            reaction(action as T);
+            Dictionary<Type, List<Action<GameAction>>>
+                subs = timing == ReactionTiming.Pre ? typeToPrevSubs : typeToPostSubs;
+            Type type = typeof(T);
+            if (subs.ContainsKey(type)) subs[type].Remove(WrappedReaction);
+
+            return;
+
+            void WrappedReaction(GameAction action)
+            {
+                reaction(action as T);
+            }
         }
-    }
 
-    public static void UnsubscribeReaction<T>(Action<T> reaction, ReactionTiming timing) where T : GameAction
-    {
-        Dictionary<Type, List<Action<GameAction>>>
-            subs = timing == ReactionTiming.Pre ? typeToPrevSubs : typeToPostSubs;
-        Type type = typeof(T);
-        if (subs.ContainsKey(type)) subs[type].Remove(WrappedReaction);
-
-        return;
-
-        void WrappedReaction(GameAction action)
+        public void Perform(GameAction action, Action onPerformFinished = null)
         {
-            reaction(action as T);
+            if (IsPerforming) return;
+
+            IsPerforming = true;
+            StartCoroutine(Flow(action, () =>
+            {
+                IsPerforming = false;
+                onPerformFinished?.Invoke();
+            }));
         }
-    }
 
-    public void Perform(GameAction action, Action onPerformFinished = null)
-    {
-        if (IsPerforming) return;
-
-        IsPerforming = true;
-        StartCoroutine(Flow(action, () =>
+        public void AddReaction(GameAction gameAction)
         {
-            IsPerforming = false;
-            onPerformFinished?.Invoke();
-        }));
-    }
-
-    public void AddReaction(GameAction gameAction)
-    {
-        reactions?.Add(gameAction);
-    }
-
-    private IEnumerator Flow(GameAction action, Action onFlowFinished = null)
-    {
-        reactions = action.PrevActions;
-        PerformSubscribers(action, typeToPrevSubs);
-        yield return PerformReactions();
-
-        reactions = action.PerformActions;
-        yield return PerformPerformer(action);
-        yield return PerformReactions();
-
-        reactions = action.PostActions;
-        PerformSubscribers(action, typeToPostSubs);
-        yield return PerformReactions();
-
-        onFlowFinished?.Invoke();
-    }
-
-    private static void PerformSubscribers(GameAction action,
-                                           Dictionary<Type, List<Action<GameAction>>> typeToActionSubs)
-    {
-        Type type = action.GetType();
-        if (!typeToActionSubs.TryGetValue(type, out List<Action<GameAction>> actionSubs)) return;
-
-        foreach (Action<GameAction> sub in actionSubs) sub(action);
-    }
-
-    private static IEnumerator PerformPerformer(GameAction action)
-    {
-        Type type = action.GetType();
-        if (typeToPerformer.TryGetValue(type, out Func<GameAction, IEnumerator> performer))
-        {
-            yield return performer(action);
+            reactions?.Add(gameAction);
         }
-    }
 
-    /// <summary>
-    ///     执行 <see cref="reactions" /> 里的 <see cref="GameAction" />
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator PerformReactions()
-    {
-        foreach (GameAction reaction in reactions) yield return Flow(reaction);
+        private IEnumerator Flow(GameAction action, Action onFlowFinished = null)
+        {
+            reactions = action.PrevActions;
+            PerformSubscribers(action, typeToPrevSubs);
+            yield return PerformReactions();
+
+            reactions = action.PerformActions;
+            yield return PerformPerformer(action);
+            yield return PerformReactions();
+
+            reactions = action.PostActions;
+            PerformSubscribers(action, typeToPostSubs);
+            yield return PerformReactions();
+
+            onFlowFinished?.Invoke();
+        }
+
+        private static void PerformSubscribers(GameAction action,
+                                               Dictionary<Type, List<Action<GameAction>>> typeToActionSubs)
+        {
+            Type type = action.GetType();
+            if (!typeToActionSubs.TryGetValue(type, out List<Action<GameAction>> actionSubs)) return;
+
+            foreach (Action<GameAction> sub in actionSubs) sub(action);
+        }
+
+        private static IEnumerator PerformPerformer(GameAction action)
+        {
+            Type type = action.GetType();
+            if (typeToPerformer.TryGetValue(type, out Func<GameAction, IEnumerator> performer))
+            {
+                yield return performer(action);
+            }
+        }
+
+        /// <summary>
+        ///     执行 <see cref="reactions" /> 里的 <see cref="GameAction" />
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator PerformReactions()
+        {
+            foreach (GameAction reaction in reactions) yield return Flow(reaction);
+        }
     }
 }

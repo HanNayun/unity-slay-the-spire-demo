@@ -1,8 +1,11 @@
 using System.Collections.Generic;
 
-public abstract class GameAction
+namespace _Scripts.General.ActionSystem
 {
-    public List<GameAction> PrevActions { get; private set; } = new();
-    public List<GameAction> PerformActions { get; private set; } = new();
-    public List<GameAction> PostActions { get; private set; } = new();
+    public abstract class GameAction
+    {
+        public List<GameAction> PrevActions { get; private set; } = new();
+        public List<GameAction> PerformActions { get; private set; } = new();
+        public List<GameAction> PostActions { get; private set; } = new();
+    }
 }

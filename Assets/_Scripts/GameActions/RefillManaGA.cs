@@ -1,2 +1,7 @@
-public class RefillManaGA : GameAction
-{ }
+using _Scripts.General.ActionSystem;
+
+namespace _Scripts.GameActions
+{
+    public class RefillManaGA : GameAction
+    { }
+}

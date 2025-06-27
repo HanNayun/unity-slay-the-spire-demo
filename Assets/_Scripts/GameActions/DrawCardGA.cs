@@ -1,9 +1,14 @@
-public class DrawCardGA : GameAction
-{
-    public DrawCardGA(int count)
-    {
-        Amount = count;
-    }
+using _Scripts.General.ActionSystem;
 
-    public int Amount { get; set; }
+namespace _Scripts.GameActions
+{
+    public class DrawCardGA : GameAction
+    {
+        public DrawCardGA(int count)
+        {
+            Amount = count;
+        }
+
+        public int Amount { get; set; }
+    }
 }

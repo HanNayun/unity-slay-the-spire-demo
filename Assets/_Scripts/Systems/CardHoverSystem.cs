@@ -1,21 +1,25 @@
 using _Scripts.General;
 using _Scripts.Models;
+using _Scripts.Views;
 using UnityEngine;
 
-public class CardHoverSystem : Singleton<CardHoverSystem>
+namespace _Scripts.Systems
 {
-    [SerializeField]
-    private CardView hoverCardView;
-
-    public void ShowCardView(Card card, Vector3 position)
+    public class CardHoverSystem : Singleton<CardHoverSystem>
     {
-        hoverCardView.Setup(card);
-        hoverCardView.transform.position = position;
-        hoverCardView.gameObject.SetActive(true);
-    }
+        [SerializeField]
+        private CardView hoverCardView;
 
-    public void Hide()
-    {
-        hoverCardView.gameObject.SetActive(false);
+        public void ShowCardView(Card card, Vector3 position)
+        {
+            hoverCardView.Setup(card);
+            hoverCardView.transform.position = position;
+            hoverCardView.gameObject.SetActive(true);
+        }
+
+        public void Hide()
+        {
+            hoverCardView.gameObject.SetActive(false);
+        }
     }
 }

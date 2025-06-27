@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using _Scripts.Creators;
 using _Scripts.Data;
 using DG.Tweening;
 using UnityEngine;
 
+namespace _Scripts.Views
+{
 public class EnemyBoardView : MonoBehaviour
 {
     [SerializeField]
@@ -25,4 +28,5 @@ public class EnemyBoardView : MonoBehaviour
         yield return enemyView.transform.DOScale(Vector3.zero, .15f).WaitForCompletion();
         Destroy(enemyView.gameObject);
     }
+}
 }

@@ -1,7 +1,10 @@
 using _Scripts.Data;
 using _Scripts.General;
+using _Scripts.Views;
 using UnityEngine;
 
+namespace _Scripts.Creators
+{
 public class EnemyCreator : Singleton<EnemyCreator>
 {
     [SerializeField]
@@ -15,4 +18,5 @@ public class EnemyCreator : Singleton<EnemyCreator>
         enemyView.transform.rotation = rotation;
         return enemyView;
     }
+}
 }

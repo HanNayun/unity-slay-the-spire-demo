@@ -3,6 +3,8 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
+namespace _Scripts.Views
+{
 public class CombatantView : MonoBehaviour
 {
     private const int SIZE = 180;
@@ -48,4 +50,5 @@ public class CombatantView : MonoBehaviour
         float scale = SIZE / Math.Max(spriteSize.x, spriteSize.y);
         spriteRenderer.transform.localScale = new Vector3(scale, scale, 1);
     }
+}
 }

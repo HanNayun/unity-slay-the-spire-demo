@@ -2,6 +2,8 @@ using _Scripts.Data;
 using TMPro;
 using UnityEngine;
 
+namespace _Scripts.Views
+{
 public class EnemyView : CombatantView
 {
     [SerializeField]
@@ -20,4 +22,5 @@ public class EnemyView : CombatantView
     {
         attckPowerText.text = "ATK: " + AttackPower;
     }
+}
 }

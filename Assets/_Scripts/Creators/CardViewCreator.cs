@@ -1,9 +1,12 @@
 using _Scripts.General;
 using _Scripts.Models;
+using _Scripts.Views;
 using DG.Tweening;
 using UnityEngine;
 
-public class CradViewCreator : Singleton<CradViewCreator>
+namespace _Scripts.Creators
+{
+public class CardViewCreator : Singleton<CardViewCreator>
 {
     [SerializeField]
     private CardView cardViewPrefab;
@@ -16,4 +19,5 @@ public class CradViewCreator : Singleton<CradViewCreator>
         cardView.transform.DOScale(Vector3.one, .15f);
         return cardView;
     }
+}
 }

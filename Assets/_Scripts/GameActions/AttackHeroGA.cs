@@ -1,9 +1,18 @@
-public class AttackHeroGA : GameAction
-{
-    public AttackHeroGA(EnemyView attacker)
-    {
-        Attacker = attacker;
-    }
+using _Scripts.General.ActionSystem;
+using _Scripts.Interfaces;
+using _Scripts.Views;
 
-    public EnemyView Attacker { get; private set; }
+namespace _Scripts.GameActions
+{
+    public class AttackHeroGA : GameAction, IHaveCaster
+    {
+        public AttackHeroGA(EnemyView attacker)
+        {
+            Attacker = attacker;
+            Caster = Attacker;
+        }
+
+        public EnemyView Attacker { get; private set; }
+        public CombatantView Caster { get; private set; }
+    }
 }

@@ -1,6 +1,8 @@
 using TMPro;
 using UnityEngine;
 
+namespace _Scripts.UI
+{
 public class ManaUI : MonoBehaviour
 {
     [SerializeField]
@@ -10,4 +12,5 @@ public class ManaUI : MonoBehaviour
     {
         manaText.text = mana.ToString();
     }
+}
 }

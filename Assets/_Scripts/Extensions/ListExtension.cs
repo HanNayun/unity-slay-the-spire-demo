@@ -1,24 +1,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class ListExtension
+namespace _Scripts.Extensions
 {
-    public static T Draw<T>(this List<T> list)
+    public static class ListExtension
     {
-        if (list.Count is 0) return default;
+        public static T Draw<T>(this List<T> list)
+        {
+            if (list.Count is 0) return default;
 
-        int idx = Random.Range(0, list.Count);
-        T value = list[idx];
-        list.RemoveAt(idx);
-        return value;
-    }
+            int idx = Random.Range(0, list.Count);
+            T value = list[idx];
+            list.RemoveAt(idx);
+            return value;
+        }
 
-    public static T GetOne<T>(this List<T> list)
-    {
-        if (list.Count is 0) return default;
+        public static T GetOne<T>(this List<T> list)
+        {
+            if (list.Count is 0) return default;
 
-        int idx = Random.Range(0, list.Count);
-        T value = list[idx];
-        return value;
+            int idx = Random.Range(0, list.Count);
+            T value = list[idx];
+            return value;
+        }
     }
 }

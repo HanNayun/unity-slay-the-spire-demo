@@ -1,7 +1,12 @@
 using System.Collections;
+using _Scripts.GameActions;
 using _Scripts.General;
+using _Scripts.General.ActionSystem;
+using _Scripts.UI;
 using UnityEngine;
 
+namespace _Scripts.Systems
+{
 public class ManaSystem : Singleton<ManaSystem>
 {
     private const int MAX_MANA = 3;
@@ -56,4 +61,5 @@ public class ManaSystem : Singleton<ManaSystem>
     {
         ActionSystem.Instance.AddReaction(new RefillManaGA());
     }
+}
 }

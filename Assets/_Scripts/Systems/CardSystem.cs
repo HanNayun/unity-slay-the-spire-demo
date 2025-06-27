@@ -2,10 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using _Scripts.Creators;
 using _Scripts.Data;
+using _Scripts.Extensions;
 using _Scripts.GameActions;
 using _Scripts.General;
+using _Scripts.General.ActionSystem;
 using _Scripts.Models;
+using _Scripts.Views;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
@@ -138,7 +142,7 @@ namespace _Scripts.Systems
             Card card = drawPile.Draw();
             hand.Add(card);
             CardView cardView =
-                CradViewCreator.Instance.CreateCardView(card, drawPileTransform.position, drawPileTransform.rotation);
+                CardViewCreator.Instance.CreateCardView(card, drawPileTransform.position, drawPileTransform.rotation);
             yield return handView.AddCard(cardView);
         }
 

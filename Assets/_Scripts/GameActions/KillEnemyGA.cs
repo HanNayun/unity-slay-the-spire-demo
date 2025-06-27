@@ -1,9 +1,15 @@
-public class KillEnemyGA : GameAction
-{
-    public KillEnemyGA(EnemyView target)
-    {
-        Target = target;
-    }
+using _Scripts.General.ActionSystem;
+using _Scripts.Views;
 
-    public EnemyView Target { get; private set; }
+namespace _Scripts.GameActions
+{
+    public class KillEnemyGA : GameAction
+    {
+        public KillEnemyGA(EnemyView target)
+        {
+            Target = target;
+        }
+
+        public EnemyView Target { get; private set; }
+    }
 }

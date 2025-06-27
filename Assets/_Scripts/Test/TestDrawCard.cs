@@ -1,7 +1,11 @@
+using _Scripts.Creators;
 using _Scripts.Data;
 using _Scripts.Models;
+using _Scripts.Views;
 using UnityEngine;
 
+namespace _Scripts.Test
+{
 public class TestDrawCard : MonoBehaviour
 {
     [SerializeField]
@@ -16,8 +20,9 @@ public class TestDrawCard : MonoBehaviour
         {
             var card = new Card(cardData);
             CardView cardView =
-                CradViewCreator.Instance.CreateCardView(card, transform.position, Quaternion.identity);
+                CardViewCreator.Instance.CreateCardView(card, transform.position, Quaternion.identity);
             StartCoroutine(handView.AddCard(cardView));
         }
     }
+}
 }

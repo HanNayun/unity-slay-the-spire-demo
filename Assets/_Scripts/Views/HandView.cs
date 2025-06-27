@@ -6,6 +6,8 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Splines;
 
+namespace _Scripts.Views
+{
 public class HandView : MonoBehaviour
 {
     [SerializeField]
@@ -60,4 +62,5 @@ public class HandView : MonoBehaviour
 
         yield return new WaitForSeconds(durationSecond);
     }
+}
 }

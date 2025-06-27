@@ -1,38 +1,44 @@
 using System.Collections;
+using _Scripts.GameActions;
 using _Scripts.General;
+using _Scripts.General.ActionSystem;
+using _Scripts.Views;
 using UnityEngine;
 
-public class DamageSystem : Singleton<DamageSystem>
+namespace _Scripts.Systems
 {
-    [SerializeField]
-    private GameObject damageVFX;
-
-    private void OnEnable()
+    public class DamageSystem : Singleton<DamageSystem>
     {
-        ActionSystem.AttachPerformer<DealDamageGA>(DealDamagePerformer);
-    }
+        [SerializeField]
+        private GameObject damageVFX;
 
-    private void OnDisable()
-    {
-        ActionSystem.DetachPerformer<DealDamageGA>();
-    }
-
-    private IEnumerator DealDamagePerformer(DealDamageGA ga)
-    {
-        foreach (CombatantView target in ga.Targets)
+        private void OnEnable()
         {
-            target.Damage(ga.Damage);
-            Instantiate(damageVFX, target.transform.position, Quaternion.identity);
-            yield return new WaitForSeconds(.15f);
+            ActionSystem.AttachPerformer<DealDamageGA>(DealDamagePerformer);
+        }
 
-            if (target.CurrentHealth <= 0)
+        private void OnDisable()
+        {
+            ActionSystem.DetachPerformer<DealDamageGA>();
+        }
+
+        private IEnumerator DealDamagePerformer(DealDamageGA ga)
+        {
+            foreach (CombatantView target in ga.Targets)
             {
-                if (target is EnemyView enemy)
+                target.Damage(ga.Damage);
+                Instantiate(damageVFX, target.transform.position, Quaternion.identity);
+                yield return new WaitForSeconds(.15f);
+
+                if (target.CurrentHealth <= 0)
                 {
-                    ActionSystem.Instance.AddReaction(new KillEnemyGA(enemy));
-                }
-                else
-                {
+                    if (target is EnemyView enemy)
+                    {
+                        ActionSystem.Instance.AddReaction(new KillEnemyGA(enemy));
+                    }
+                    else
+                    {
+                    }
                 }
             }
         }

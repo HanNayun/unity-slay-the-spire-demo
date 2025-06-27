@@ -1,9 +1,13 @@
 using _Scripts.GameActions;
+using _Scripts.General.ActionSystem;
+using _Scripts.General.Utils;
 using _Scripts.Models;
 using _Scripts.Systems;
 using TMPro;
 using UnityEngine;
 
+namespace _Scripts.Views
+{
 public class CardView : MonoBehaviour
 {
     [SerializeField]
@@ -114,4 +118,5 @@ public class CardView : MonoBehaviour
         image.sprite = card.Image;
         wrapper.SetActive(true);
     }
+}
 }
