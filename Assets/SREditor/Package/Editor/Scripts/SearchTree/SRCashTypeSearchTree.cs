@@ -11,8 +11,8 @@ namespace SerializeReferenceEditor.Editor.Drawers
         public SRTypeTreeFactory GetTypeTreeFactory(TypeInfo[] types)
         {
             SRTypeTreeFactory typeTreeFactory;
-            var typesHash = _typeInfoComparer.GetHashCode(types);
-            if (_cashTypes.TryGetValue(typesHash, out var result))
+            int typesHash = _typeInfoComparer.GetHashCode(types);
+            if (_cashTypes.TryGetValue(typesHash, out SRTypeTreeFactory result))
             {
                 typeTreeFactory = result;
             }

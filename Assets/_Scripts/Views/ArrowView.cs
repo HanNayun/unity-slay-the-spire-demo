@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace _Scripts.Views
@@ -15,8 +14,8 @@ namespace _Scripts.Views
 
         private void Update()
         {
-            var endPos = MouseUtil.GetMousePositionInWorld();
-            var dir = (arrowHead.transform.position - startPosition).normalized;
+            Vector3 endPos = MouseUtil.GetMousePositionInWorld();
+            Vector3 dir = (arrowHead.transform.position - startPosition).normalized;
             lineRenderer.SetPosition(1, endPos - dir * .5f);
             arrowHead.transform.position = endPos;
             arrowHead.transform.right = dir;

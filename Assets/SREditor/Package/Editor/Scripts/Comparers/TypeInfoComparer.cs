@@ -11,17 +11,19 @@ namespace SerializeReferenceEditor.Editor.Comparers
             {
                 return 0;
             }
+
             if (ReferenceEquals(null, second))
             {
                 return 1;
             }
+
             if (ReferenceEquals(null, first))
             {
                 return -1;
             }
 
-            var pathTypeA = first.Path.Split('/');
-            var pathTypeB = second.Path.Split('/');
+            string[] pathTypeA = first.Path.Split('/');
+            string[] pathTypeB = second.Path.Split('/');
 
             for (int i = 0; i < pathTypeA.Length; i++)
             {
@@ -30,7 +32,7 @@ namespace SerializeReferenceEditor.Editor.Comparers
                     return 1;
                 }
 
-                var compare = string.Compare(pathTypeA[i], pathTypeB[i], StringComparison.Ordinal);
+                int compare = string.Compare(pathTypeA[i], pathTypeB[i], StringComparison.Ordinal);
                 if (compare == 0)
                 {
                     continue;
@@ -55,18 +57,22 @@ namespace SerializeReferenceEditor.Editor.Comparers
             {
                 return true;
             }
+
             if (ReferenceEquals(first, null))
             {
                 return false;
             }
+
             if (ReferenceEquals(second, null))
             {
                 return false;
             }
+
             if (first.GetType() != second.GetType())
             {
                 return false;
             }
+
             return first.Type == second.Type && first.Path == second.Path;
         }
 
@@ -76,6 +82,7 @@ namespace SerializeReferenceEditor.Editor.Comparers
             {
                 return 0;
             }
+
             return HashCode.Combine(obj.Type, obj.Path);
         }
     }

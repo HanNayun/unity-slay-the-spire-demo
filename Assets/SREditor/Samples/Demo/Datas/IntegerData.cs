@@ -3,9 +3,9 @@ using SerializeReferenceEditor;
 
 namespace Demo
 {
-	[Serializable, SRName("Data/Simple types/Integer")]
-	public class IntegerData : AbstractData
-	{
-		public int Int;
-	}
+    [Serializable, SRName("Data/Simple types/Integer")]
+    public class IntegerData : AbstractData
+    {
+        public int Int;
+    }
 }

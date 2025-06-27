@@ -7,7 +7,6 @@ namespace SerializeReferenceEditor.Editor.SRActions
         public ErasePropertySRAction(SerializedProperty currentProperty, SerializedProperty parentProperty)
             : base(currentProperty, parentProperty)
         {
-            
         }
 
         protected override void DoApply()

@@ -1,11 +1,9 @@
 namespace SerializeReferenceEditor.Editor.Settings
 {
-
-	public enum SRDuplicateMode
+    public enum SRDuplicateMode
     {
-		Default,
-		Copy,
-        Null
+        Default,
+        Copy,
+        Null,
     }
-
 }

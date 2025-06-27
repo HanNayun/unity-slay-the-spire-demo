@@ -1,3 +1,5 @@
+using _Scripts.General;
+
 public class InteractionSystem : Singleton<InteractionSystem>
 {
     public bool IsPlayerDragging { get; set; }

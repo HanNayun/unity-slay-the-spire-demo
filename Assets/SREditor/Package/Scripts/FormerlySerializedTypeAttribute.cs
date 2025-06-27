@@ -1,21 +1,21 @@
 using System;
 using System.Linq;
+using SerializeReferenceEditor.Services;
 
 namespace SerializeReferenceEditor
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class FormerlySerializedTypeAttribute : Attribute
     {
-#if UNITY_EDITOR
-        private readonly string _oldTypeName;
+    #if UNITY_EDITOR
         private string _oldNamespace;
         private string _oldAssemblyName;
         private bool _isInitialized;
         private readonly string _oldTypeFullName;
 
-        public string OldTypeName => _oldTypeName;
-        
-        public string OldNamespace 
+        public string OldTypeName { get; }
+
+        public string OldNamespace
         {
             get
             {
@@ -23,8 +23,8 @@ namespace SerializeReferenceEditor
                 return _oldNamespace;
             }
         }
-        
-        public string OldAssemblyName 
+
+        public string OldAssemblyName
         {
             get
             {
@@ -32,17 +32,19 @@ namespace SerializeReferenceEditor
                 return _oldAssemblyName;
             }
         }
-        
+
         public FormerlySerializedTypeAttribute(string oldTypeFullName)
         {
             if (string.IsNullOrEmpty(oldTypeFullName))
+            {
                 throw new ArgumentException("Type name cannot be null or empty", nameof(oldTypeFullName));
+            }
 
             _oldTypeFullName = oldTypeFullName;
-            
-            var assemblyAndType = oldTypeFullName.Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+            string[] assemblyAndType = oldTypeFullName.Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
             string typeWithNamespace;
-            
+
             if (assemblyAndType.Length > 1)
             {
                 _oldAssemblyName = assemblyAndType[0].Trim();
@@ -53,26 +55,28 @@ namespace SerializeReferenceEditor
                 typeWithNamespace = assemblyAndType[0].Trim();
             }
 
-            var parts = typeWithNamespace.Split('.');
+            string[] parts = typeWithNamespace.Split('.');
             if (parts.Length <= 1)
             {
-                _oldTypeName = parts[0];
+                OldTypeName = parts[0];
             }
             else
             {
-                _oldTypeName = parts[^1];
+                OldTypeName = parts[^1];
                 _oldNamespace = string.Join(".", parts.Take(parts.Length - 1));
             }
-            
+
             _isInitialized = !string.IsNullOrEmpty(_oldAssemblyName) && !string.IsNullOrEmpty(_oldNamespace);
         }
 
         private void EnsureInitialized()
         {
             if (_isInitialized)
+            {
                 return;
+            }
 
-            var type = Services.SRFormerlyTypeCache.GetTypeForAttribute(this);
+            Type type = SRFormerlyTypeCache.GetTypeForAttribute(this);
             if (type != null)
             {
                 _oldAssemblyName ??= type.Assembly.GetName().Name ?? string.Empty;
@@ -80,10 +84,10 @@ namespace SerializeReferenceEditor
                 _isInitialized = true;
             }
         }
-#else
+    #else
         public FormerlySerializedTypeAttribute(string oldTypeFullName)
         {
         }
-#endif
+    #endif
     }
 }

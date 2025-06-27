@@ -1,4 +1,5 @@
 using _Scripts.Data;
+using _Scripts.General;
 using UnityEngine;
 
 public class EnemyCreator : Singleton<EnemyCreator>
@@ -8,7 +9,7 @@ public class EnemyCreator : Singleton<EnemyCreator>
 
     public EnemyView CreateEnemy(EnemyData data, Vector3 position, Quaternion rotation)
     {
-        var enemyView = Instantiate(enemyPrefab);
+        EnemyView enemyView = Instantiate(enemyPrefab);
         enemyView.Setup(data);
         enemyView.transform.position = position;
         enemyView.transform.rotation = rotation;

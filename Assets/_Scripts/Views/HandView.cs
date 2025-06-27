@@ -21,9 +21,11 @@ public class HandView : MonoBehaviour
 
     public CardView RemoveCard(Card card)
     {
-        var cardView = GetCardView(card);
+        CardView cardView = GetCardView(card);
         if (cardView == null)
+        {
             return null;
+        }
 
         cards.Remove(cardView);
         StartCoroutine(UpdateCardPositions(.15f));
@@ -38,7 +40,9 @@ public class HandView : MonoBehaviour
     private IEnumerator UpdateCardPositions(float durationSecond)
     {
         if (cards.Count is 0)
+        {
             yield break;
+        }
 
         float cardSpacing = 1f / 10f;
         float firstCardPosition = .5f - (cards.Count - 1) * cardSpacing / 2;

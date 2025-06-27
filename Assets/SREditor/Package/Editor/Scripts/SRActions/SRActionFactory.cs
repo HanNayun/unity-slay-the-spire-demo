@@ -9,7 +9,7 @@ namespace SerializeReferenceEditor.Editor.SRActions
         private readonly TypeInfo[] _typeInfos;
 
         public SRActionFactory(
-            SerializedProperty currentProperty, 
+            SerializedProperty currentProperty,
             SerializedProperty parentProperty,
             TypeInfo[] typeInfos)
         {
@@ -19,9 +19,13 @@ namespace SerializeReferenceEditor.Editor.SRActions
         }
 
         public InstanceClassSRAction InstantiateBuild(string type)
-            => new(_currentProperty, _parentProperty, _typeInfos, type);
+        {
+            return new InstanceClassSRAction(_currentProperty, _parentProperty, _typeInfos, type);
+        }
 
         public ErasePropertySRAction EraseBuild()
-            => new ErasePropertySRAction(_currentProperty, _parentProperty);
+        {
+            return new ErasePropertySRAction(_currentProperty, _parentProperty);
+        }
     }
 }

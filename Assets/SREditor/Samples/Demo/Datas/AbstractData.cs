@@ -2,8 +2,7 @@
 
 namespace Demo
 {
-	[Serializable]
-	public abstract class AbstractData
-	{
-	}
+    [Serializable]
+    public abstract class AbstractData
+    { }
 }

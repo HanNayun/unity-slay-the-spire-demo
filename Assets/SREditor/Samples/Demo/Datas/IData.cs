@@ -1,7 +1,5 @@
 namespace Demo
 {
-	public interface IData
-	{
-		
-	}
+    public interface IData
+    { }
 }

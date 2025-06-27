@@ -2,9 +2,9 @@ using System;
 
 namespace Demo
 {
-	[Serializable]
-	public abstract class AbstractNamedData : AbstractData
-	{
-		public string DataName;
-	}
+    [Serializable]
+    public abstract class AbstractNamedData : AbstractData
+    {
+        public string DataName;
+    }
 }

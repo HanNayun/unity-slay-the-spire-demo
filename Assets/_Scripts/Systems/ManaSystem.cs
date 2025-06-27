@@ -1,5 +1,5 @@
-using System;
 using System.Collections;
+using _Scripts.General;
 using UnityEngine;
 
 public class ManaSystem : Singleton<ManaSystem>
@@ -21,8 +21,6 @@ public class ManaSystem : Singleton<ManaSystem>
         }
     }
 
-    public bool HasEnoughMana(int amount) => CurMana >= amount;
-
     private void OnEnable()
     {
         ActionSystem.AttachPerformer<SpendManaGA>(SpendManaPerformer);
@@ -35,6 +33,11 @@ public class ManaSystem : Singleton<ManaSystem>
         ActionSystem.DetachPerformer<SpendManaGA>();
         ActionSystem.DetachPerformer<RefillManaGA>();
         ActionSystem.UnsubscribeReaction<EnemyTurnGA>(EnemyTurnPostReaction, ReactionTiming.Post);
+    }
+
+    public bool HasEnoughMana(int amount)
+    {
+        return CurMana >= amount;
     }
 
     private IEnumerator SpendManaPerformer(SpendManaGA spendManaGA)

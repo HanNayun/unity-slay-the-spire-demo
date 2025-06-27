@@ -1,4 +1,5 @@
 using _Scripts.Data;
+using _Scripts.General;
 using UnityEngine;
 
 public class HeroSystem : Singleton<HeroSystem>

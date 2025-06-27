@@ -1,9 +1,8 @@
-using System;
 using _Scripts.GameActions;
 using _Scripts.Models;
+using _Scripts.Systems;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class CardView : MonoBehaviour
 {
@@ -25,18 +24,37 @@ public class CardView : MonoBehaviour
     [SerializeField]
     private LayerMask dropLayer;
 
-    public Card Card { get; private set; }
     private Vector3 dragStartPosition;
     private Quaternion dragStartRotation;
 
-    public void Setup(Card card)
+    public Card Card { get; private set; }
+
+    private void OnMouseDown()
     {
-        Card = card;
-        title.text = card.Title;
-        mana.text = card.Mana.ToString();
-        description.text = card.Description;
-        image.sprite = card.Image;
-        wrapper.SetActive(true);
+        if (!InteractionSystem.Instance.CanPlayerInteract()) return;
+
+        InteractionSystem.Instance.IsPlayerDragging = true;
+        wrapper.gameObject.SetActive(true);
+        CardHoverSystem.Instance.Hide();
+        dragStartPosition = transform.position;
+        dragStartRotation = transform.rotation;
+        transform.position = MouseUtil.GetMousePositionInWorld(-1);
+        transform.rotation = Quaternion.Euler(0, 0, 0);
+
+        if (Card.ManualTargetEffect is not null)
+        {
+            ManualTargetSystem.Instance.StartTargeting(transform.position);
+        }
+    }
+
+    private void OnMouseDrag()
+    {
+        if (!InteractionSystem.Instance.CanPlayerInteract()) return;
+
+        if (Card.ManualTargetEffect is null)
+        {
+            transform.position = MouseUtil.GetMousePositionInWorld(-1);
+        }
     }
 
     private void OnMouseEnter()
@@ -56,33 +74,27 @@ public class CardView : MonoBehaviour
         CardHoverSystem.Instance.Hide();
     }
 
-    private void OnMouseDown()
-    {
-        if (!InteractionSystem.Instance.CanPlayerInteract()) return;
-        InteractionSystem.Instance.IsPlayerDragging = true;
-        wrapper.gameObject.SetActive(true);
-        CardHoverSystem.Instance.Hide();
-        dragStartPosition = transform.position;
-        dragStartRotation = transform.rotation;
-        transform.position = MouseUtil.GetMousePositionInWorld(-1);
-        transform.rotation = Quaternion.Euler(0, 0, 0);
-    }
-
-    private void OnMouseDrag()
-    {
-        if (!InteractionSystem.Instance.CanPlayerInteract()) return;
-        transform.position = MouseUtil.GetMousePositionInWorld(-1);
-    }
-
     private void OnMouseUp()
     {
         if (!InteractionSystem.Instance.CanPlayerInteract()) return;
 
-        if (ManaSystem.Instance.HasEnoughMana(Card.Mana) &&
-            Physics.Raycast(transform.position, Vector3.forward, out var hit, 10f, dropLayer))
+        if (Card.ManualTargetEffect is null)
         {
-            PlayCardGA playCardGA = new(Card);
-            ActionSystem.Instance.Perform(playCardGA);
+            if (ManaSystem.Instance.HasEnoughMana(Card.Mana) &&
+                Physics.Raycast(transform.position, Vector3.forward, out RaycastHit hit, 10f, dropLayer))
+            {
+                ActionSystem.Instance.Perform(new PlayCardGA(Card));
+            }
+            else
+            {
+                transform.position = dragStartPosition;
+                transform.rotation = dragStartRotation;
+            }
+        }
+        else if (ManualTargetSystem.Instance.EndTargeting(MouseUtil.GetMousePositionInWorld(-1), out EnemyView target)
+                 && ManaSystem.Instance.HasEnoughMana(Card.Mana))
+        {
+            ActionSystem.Instance.Perform(new PlayCardGA(Card, target));
         }
         else
         {
@@ -91,5 +103,15 @@ public class CardView : MonoBehaviour
         }
 
         InteractionSystem.Instance.IsPlayerDragging = false;
+    }
+
+    public void Setup(Card card)
+    {
+        Card = card;
+        title.text = card.Title;
+        mana.text = card.Mana.ToString();
+        description.text = card.Description;
+        image.sprite = card.Image;
+        wrapper.SetActive(true);
     }
 }

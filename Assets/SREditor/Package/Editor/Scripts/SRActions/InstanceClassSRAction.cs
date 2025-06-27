@@ -10,7 +10,8 @@ namespace SerializeReferenceEditor.Editor.SRActions
         private readonly TypeInfo[] _typeInfos;
         private readonly string _type;
 
-        public InstanceClassSRAction(SerializedProperty currentProperty, SerializedProperty parentProperty, TypeInfo[] typeInfos, string type)
+        public InstanceClassSRAction(SerializedProperty currentProperty, SerializedProperty parentProperty,
+                                     TypeInfo[] typeInfos, string type)
             : base(currentProperty, parentProperty)
         {
             _typeInfos = typeInfos;
@@ -26,10 +27,11 @@ namespace SerializeReferenceEditor.Editor.SRActions
                 return;
             }
 
-            Undo.RegisterCompleteObjectUndo(Property.serializedObject.targetObject, "Create instance of " + selectedTypeInfo.Type.Name);
+            Undo.RegisterCompleteObjectUndo(Property.serializedObject.targetObject,
+                "Create instance of " + selectedTypeInfo.Type.Name);
             Undo.FlushUndoRecordObjects();
 
-            var instance = Activator.CreateInstance(selectedTypeInfo.Type);
+            object instance = Activator.CreateInstance(selectedTypeInfo.Type);
             Property.managedReferenceValue = instance;
             Property.serializedObject.ApplyModifiedProperties();
         }

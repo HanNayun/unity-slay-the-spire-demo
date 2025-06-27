@@ -1,4 +1,5 @@
 using System.Collections;
+using _Scripts.General;
 using UnityEngine;
 
 public class DamageSystem : Singleton<DamageSystem>
@@ -27,10 +28,11 @@ public class DamageSystem : Singleton<DamageSystem>
             if (target.CurrentHealth <= 0)
             {
                 if (target is EnemyView enemy)
+                {
                     ActionSystem.Instance.AddReaction(new KillEnemyGA(enemy));
+                }
                 else
                 {
-                    
                 }
             }
         }

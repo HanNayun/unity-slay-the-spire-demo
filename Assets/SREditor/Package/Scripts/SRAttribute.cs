@@ -6,8 +6,6 @@ namespace SerializeReferenceEditor
     [AttributeUsage(AttributeTargets.Field)]
     public class SRAttribute : PropertyAttribute
     {
-        public Type[] Types { get; private set; }
-
         public SRAttribute()
         {
             Types = null;
@@ -15,13 +13,15 @@ namespace SerializeReferenceEditor
 
         public SRAttribute(Type baseType)
         {
-            Types = new []{ baseType };
+            Types = new[] { baseType };
         }
 
         public SRAttribute(params Type[] types)
         {
             Types = types;
         }
+
+        public Type[] Types { get; private set; }
 
         public virtual void OnCreate(object instance)
         {

@@ -15,7 +15,7 @@ MonoBehaviour:
   <Mana>k__BackingField: 1
   <Title>k__BackingField: Draw
   <Description>k__BackingField: Draw 2 Cards
-  <Image>k__BackingField: {fileID: 21300000, guid: b317009564ad34be59b682f92e966bda, type: 3}
+  <Image>k__BackingField: {fileID: 21300000, guid: 9ff380d58da4149b6b4efc6382d25743, type: 3}
   <OtherEffects>k__BackingField:
   - <TargetMode>k__BackingField:
       rid: 7426072416812532033

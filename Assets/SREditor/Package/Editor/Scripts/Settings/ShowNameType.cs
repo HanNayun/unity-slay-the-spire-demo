@@ -1,9 +1,9 @@
 namespace SerializeReferenceEditor.Editor.Settings
 {
-	public enum ShowNameType
-	{
-		FullName,
-		OnlyNameSpace,
-		OnlyCurrentType
-	}
+    public enum ShowNameType
+    {
+        FullName,
+        OnlyNameSpace,
+        OnlyCurrentType,
+    }
 }

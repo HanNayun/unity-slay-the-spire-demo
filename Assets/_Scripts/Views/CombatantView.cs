@@ -1,17 +1,17 @@
+using System;
 using DG.Tweening;
 using TMPro;
-using Unity.Mathematics.Geometry;
 using UnityEngine;
 
 public class CombatantView : MonoBehaviour
 {
+    private const int SIZE = 180;
+
     [SerializeField]
     private TMP_Text healthText;
 
     [SerializeField]
     private SpriteRenderer spriteRenderer;
-
-    private const int SIZE = 180;
 
     public int MaxHealth { get; set; }
     public int CurrentHealth { get; set; }
@@ -45,7 +45,7 @@ public class CombatantView : MonoBehaviour
     private void UpdateSpriteSize()
     {
         Vector2 spriteSize = spriteRenderer.sprite.rect.size;
-        var scale = SIZE / System.Math.Max(spriteSize.x, spriteSize.y);
-        spriteRenderer.transform.localScale = new(scale, scale, 1);
+        float scale = SIZE / Math.Max(spriteSize.x, spriteSize.y);
+        spriteRenderer.transform.localScale = new Vector3(scale, scale, 1);
     }
 }

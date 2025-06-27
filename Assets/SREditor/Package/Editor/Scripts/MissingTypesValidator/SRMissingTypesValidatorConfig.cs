@@ -12,13 +12,14 @@ namespace SerializeReferenceEditor.Editor.MissingTypesValidator
     {
         public AssetChecker[] Checkers;
     }
-    
+
     [Serializable]
     public class AssetChecker
     {
-        [SR, SerializeReference] 
+        [SR, SerializeReference]
         public IAssetsLoader AssetsLoaders;
-        [SR, SerializeReference] 
+
+        [SR, SerializeReference]
         public IAssetMissingTypeReport ReportType = new UnityLogAssetMissingTypeReport();
     }
 }

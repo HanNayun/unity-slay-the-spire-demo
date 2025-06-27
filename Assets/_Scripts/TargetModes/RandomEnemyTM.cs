@@ -7,7 +7,7 @@ namespace _Scripts.TargetModes
     {
         public override List<CombatantView> GetTargets()
         {
-            return new List<CombatantView> { EnemySystem.Instance.Enemies.Draw() };
+            return new List<CombatantView> { EnemySystem.Instance.Enemies.GetOne() };
         }
     }
 }

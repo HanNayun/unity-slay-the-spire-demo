@@ -10,30 +10,21 @@ namespace SerializeReferenceEditor.Editor.MissingTypesValidator.ReportFormats
     public class UnityLogAssetMissingTypeReport : IAssetMissingTypeReport
     {
         private StringBuilder _stringBuilder = new();
-        
-        protected static string UnityObjectDescription(Object obj)
-            => string.Format("Object \"{0}\" (Type: {1}, Instance: {2})",
-                obj.name,
-                obj.GetType().FullName,
-                obj.GetInstanceID());
-
-        protected static string MissingClassFullName(ManagedReferenceMissingType missingType)
-            => string.Format("{0}.{1}, {2}", 
-                missingType.namespaceName, 
-                missingType.className, 
-                missingType.assemblyName);
 
         public void AttachMissingTypes(Object missingObjectContainer, ManagedReferenceMissingType[] missingTypes)
         {
-            var missingObjectContainerDescription = UnityObjectDescription(missingObjectContainer);
+            string missingObjectContainerDescription = UnityObjectDescription(missingObjectContainer);
             _stringBuilder.Append(missingObjectContainerDescription).AppendLine();
-            foreach (var missingType in missingTypes)
+            foreach (ManagedReferenceMissingType missingType in missingTypes)
             {
                 _stringBuilder.Append("\t").AppendFormat("{0} - {1}",
                     missingType.referenceId,
                     MissingClassFullName(missingType));
                 if (missingType.serializedData.Length > 0)
+                {
                     _stringBuilder.Append("\t").AppendFormat("\n\t\t{0}", missingType.serializedData);
+                }
+
                 _stringBuilder.AppendLine();
             }
         }
@@ -48,6 +39,22 @@ namespace SerializeReferenceEditor.Editor.MissingTypesValidator.ReportFormats
             {
                 Debug.Log("Not found missing types");
             }
+        }
+
+        protected static string UnityObjectDescription(Object obj)
+        {
+            return string.Format("Object \"{0}\" (Type: {1}, Instance: {2})",
+                obj.name,
+                obj.GetType().FullName,
+                obj.GetInstanceID());
+        }
+
+        protected static string MissingClassFullName(ManagedReferenceMissingType missingType)
+        {
+            return string.Format("{0}.{1}, {2}",
+                missingType.namespaceName,
+                missingType.className,
+                missingType.assemblyName);
         }
     }
 }

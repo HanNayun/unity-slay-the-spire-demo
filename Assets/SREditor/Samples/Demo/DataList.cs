@@ -5,13 +5,12 @@ using UnityEngine;
 
 namespace Demo
 {
-	[Serializable]
-	public class DataList
-	{
-		public string Title;
+    [Serializable]
+    public class DataList
+    {
+        public string Title;
 
-		[SerializeReference]
-		[SR(typeof(AbstractData))]
-		public List<AbstractData> List;
-	}
+        [SerializeReference, SR(typeof(AbstractData))]
+        public List<AbstractData> List;
+    }
 }

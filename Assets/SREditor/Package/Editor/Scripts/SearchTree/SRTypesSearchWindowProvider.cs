@@ -8,14 +8,19 @@ namespace SerializeReferenceEditor.Editor.Drawers
     public class SRTypesSearchWindowProvider : ScriptableObject, ISearchWindowProvider
     {
         private List<SearchTreeEntry> _types = new();
-        
+
         public List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context)
-            => _types;
+        {
+            return _types;
+        }
 
         public bool OnSelectEntry(SearchTreeEntry searchTreeEntry, SearchWindowContext context)
         {
             if (searchTreeEntry.userData is BaseSRAction action)
+            {
                 action.Apply();
+            }
+
             return true;
         }
 
@@ -23,7 +28,7 @@ namespace SerializeReferenceEditor.Editor.Drawers
             SRActionFactory srActionFactory,
             SRTypeTreeFactory srTypeTreeFactory)
         {
-            var typesContainer = ScriptableObject.CreateInstance<SRTypesSearchWindowProvider>();
+            var typesContainer = CreateInstance<SRTypesSearchWindowProvider>();
             typesContainer._types = GenerateSearchTreeEntries(srActionFactory, srTypeTreeFactory);
             return typesContainer;
         }
@@ -38,7 +43,7 @@ namespace SerializeReferenceEditor.Editor.Drawers
                 new(new GUIContent("Erase"))
                 {
                     userData = srActionFactory.EraseBuild(),
-                    level = 1
+                    level = 1,
                 },
             };
             list.AddRange(srTypeTreeFactory.MakeTypesTree(srActionFactory));

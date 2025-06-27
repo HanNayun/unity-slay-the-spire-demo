@@ -17,7 +17,7 @@ namespace SerializeReferenceEditor
                 return;
             }
 
-            var separateName = fullName.Split('/');
+            string[] separateName = fullName.Split('/');
             Name = separateName[^1];
         }
     }

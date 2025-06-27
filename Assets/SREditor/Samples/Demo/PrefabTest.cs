@@ -5,36 +5,33 @@ using UnityEngine;
 
 namespace Demo
 {
-	public class PrefabTest : MonoBehaviour
-	{
-		public string Title;
+    public class PrefabTest : MonoBehaviour
+    {
+        public string Title;
 
-		public GameObject Child1;
-		
-		[SerializeReference]
-		[SRDemo(typeof(AbstractData))]
-		public AbstractData SingleElement;
+        public GameObject Child1;
 
-		[SerializeReference]
-		[SRDemo(typeof(StringData), typeof(IntegerData))]
-		public List<AbstractData> StringOrIntegerTypesDataList;
+        [SerializeReference, SRDemo(typeof(AbstractData))]
+        public AbstractData SingleElement;
 
-		public GameObject Child2;
+        [SerializeReference, SRDemo(typeof(StringData), typeof(IntegerData))]
+        public List<AbstractData> StringOrIntegerTypesDataList;
 
-		public List<DataList> DataLists;
+        public GameObject Child2;
 
-		public GameObject Child3;
-		
-		[SerializeReference]
-		[SRDemo(typeof(IData))]
-		public List<IData> IterfaceDataList;
-		
-		[SerializeReference, SR]
-		public AbstractData ComplexData;
+        public List<DataList> DataLists;
 
-		[SerializeReference, SR]
-		public BaseTestData TestData;
-		
-		public ContainerData[] Containers = Array.Empty<ContainerData>();
-	}
+        public GameObject Child3;
+
+        [SerializeReference, SRDemo(typeof(IData))]
+        public List<IData> IterfaceDataList;
+
+        [SerializeReference, SR]
+        public AbstractData ComplexData;
+
+        [SerializeReference, SR]
+        public BaseTestData TestData;
+
+        public ContainerData[] Containers = Array.Empty<ContainerData>();
+    }
 }

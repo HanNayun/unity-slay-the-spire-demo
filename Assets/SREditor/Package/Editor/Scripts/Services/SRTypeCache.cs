@@ -5,129 +5,140 @@ using UnityEngine;
 
 namespace SerializeReferenceEditor.Editor.Services
 {
-	public static class SRTypeCache
-	{
-		private static readonly Dictionary<string, Type> _typeCache = new();
-		private static readonly Dictionary<Type, Type[]> _baseTypeCache = new();
-		private static readonly Dictionary<Type, TypeInfo> _typeInfoCache = new();
+    public static class SRTypeCache
+    {
+        private static readonly Dictionary<string, Type> _typeCache = new();
+        private static readonly Dictionary<Type, Type[]> _baseTypeCache = new();
+        private static readonly Dictionary<Type, TypeInfo> _typeInfoCache = new();
 
-		public static TypeInfo[] GetTypeInfos(Type baseType)
-		{
-			if (baseType == null)
-			{
-				return null;
-			}
+        public static TypeInfo[] GetTypeInfos(Type baseType)
+        {
+            if (baseType == null)
+            {
+                return null;
+            }
 
-			Type[] types = GetSupportTypes(baseType);
-			return GetTypeInfos(types);
-		}
-		
-		public static TypeInfo[] GetTypeInfos(Type[] types)
-		{
-			if (types == null)
-			{
-				return null;
-			}
+            Type[] types = GetSupportTypes(baseType);
+            return GetTypeInfos(types);
+        }
 
-			List<TypeInfo> results = new List<TypeInfo>();
-			foreach (var type in types)
-			{
-				if (type == null || type.GetCustomAttributes(typeof(SRHiddenAttribute), false).Length > 0)
-					continue;
-					
-				if (_typeInfoCache.TryGetValue(type, out var typeInfo))
-				{
-					results.Add(typeInfo);
-					continue;
-				}
-				
-				var typeName = type.FullName;
-				var nameAttribute = type.GetCustomAttributes(typeof(SRNameAttribute), false)
-					.Select(attr => attr as SRNameAttribute)
-					.FirstOrDefault();
+        public static TypeInfo[] GetTypeInfos(Type[] types)
+        {
+            if (types == null)
+            {
+                return null;
+            }
 
-				if (nameAttribute != null)
-				{
-					typeName = nameAttribute.FullName;
-				}
+            var results = new List<TypeInfo>();
+            foreach (Type type in types)
+            {
+                if (type == null || type.GetCustomAttributes(typeof(SRHiddenAttribute), false).Length > 0)
+                {
+                    continue;
+                }
 
-				typeInfo = new TypeInfo
-				{
-					Type = type,
-					Path = typeName
-				};
+                if (_typeInfoCache.TryGetValue(type, out TypeInfo typeInfo))
+                {
+                    results.Add(typeInfo);
+                    continue;
+                }
 
-				_typeInfoCache[type] = typeInfo;
-				results.Add(typeInfo);
-			}
+                string typeName = type.FullName;
+                SRNameAttribute nameAttribute = type.GetCustomAttributes(typeof(SRNameAttribute), false)
+                    .Select(attr => attr as SRNameAttribute)
+                    .FirstOrDefault();
 
-			return results.ToArray();
-		}
-		
-		public static TypeInfo[] GetTypeInfos(string typeName)
-		{
-			if(string.IsNullOrEmpty(typeName))
-			{
-				Debug.LogError("[SR] Incorrect type name.");
-			}
-			var type = GetTypeByName(typeName);
-			if(type == null)
-			{
-				Debug.LogError("[SR] Incorrect type.");
-			}
+                if (nameAttribute != null)
+                {
+                    typeName = nameAttribute.FullName;
+                }
 
-			return GetTypeInfos(type);
-		}
-		
-		public static Type GetTypeByName(string typeName)
-		{
-			if (string.IsNullOrEmpty(typeName))
-				return null;
-			
-			if (_typeCache.TryGetValue(typeName, out var result))
-				return result;
+                typeInfo = new TypeInfo
+                {
+                    Type = type,
+                    Path = typeName,
+                };
 
-			var typeSplit = typeName.Split(char.Parse(" "));
-			var typeAssembly = typeSplit[0];
-			var typeClass = typeSplit[1];
+                _typeInfoCache[type] = typeInfo;
+                results.Add(typeInfo);
+            }
 
-			result = Type.GetType(typeClass + ", " + typeAssembly);
-			
-			if (result != null && result.GetCustomAttributes(typeof(SRHiddenAttribute), false).Length > 0)
-				return null;
-			
-			if (result != null)
-				_typeCache[typeName] = result;
-				
-			return result;
-		}
+            return results.ToArray();
+        }
 
-		public static Type[] GetSupportTypes(Type baseType)
-		{
-			if (_baseTypeCache.TryGetValue(baseType, out var result))
-			{
-				return result;
-			}
+        public static TypeInfo[] GetTypeInfos(string typeName)
+        {
+            if (string.IsNullOrEmpty(typeName))
+            {
+                Debug.LogError("[SR] Incorrect type name.");
+            }
 
-			result = AppDomain.CurrentDomain
-				.GetAssemblies()
-				.SelectMany(s => s.GetTypes())
-				.Where(childType => IsCorrectChildTypeForSearchTree(baseType, childType))
-				.ToArray();
+            Type type = GetTypeByName(typeName);
+            if (type == null)
+            {
+                Debug.LogError("[SR] Incorrect type.");
+            }
 
-			_baseTypeCache[baseType] = result;
-			return result;
-		}
+            return GetTypeInfos(type);
+        }
 
-		private static bool IsCorrectChildTypeForSearchTree(Type baseType, Type childType)
-		{
-			return !childType.IsAbstract
-				&& !childType.IsInterface
-				&& (childType == baseType || 
-					baseType.IsInterface 
-						? baseType.IsAssignableFrom(childType) 
-						: childType.IsSubclassOf(baseType))
-				&& childType.GetCustomAttributes(typeof(SRHiddenAttribute), false).Length <= 0;
-		}
-	}
+        public static Type GetTypeByName(string typeName)
+        {
+            if (string.IsNullOrEmpty(typeName))
+            {
+                return null;
+            }
+
+            if (_typeCache.TryGetValue(typeName, out Type result))
+            {
+                return result;
+            }
+
+            string[] typeSplit = typeName.Split(char.Parse(" "));
+            string typeAssembly = typeSplit[0];
+            string typeClass = typeSplit[1];
+
+            result = Type.GetType(typeClass + ", " + typeAssembly);
+
+            if (result != null && result.GetCustomAttributes(typeof(SRHiddenAttribute), false).Length > 0)
+            {
+                return null;
+            }
+
+            if (result != null)
+            {
+                _typeCache[typeName] = result;
+            }
+
+            return result;
+        }
+
+        public static Type[] GetSupportTypes(Type baseType)
+        {
+            if (_baseTypeCache.TryGetValue(baseType, out Type[] result))
+            {
+                return result;
+            }
+
+            result = AppDomain.CurrentDomain
+                .GetAssemblies()
+                .SelectMany(s => s.GetTypes())
+                .Where(childType => IsCorrectChildTypeForSearchTree(baseType, childType))
+                .ToArray();
+
+            _baseTypeCache[baseType] = result;
+            return result;
+        }
+
+        private static bool IsCorrectChildTypeForSearchTree(Type baseType, Type childType)
+        {
+            return !childType.IsAbstract
+                && !childType.IsInterface
+                && (childType == baseType ||
+                    baseType.IsInterface
+                        ? baseType.IsAssignableFrom(childType)
+                        : childType.IsSubclassOf(baseType))
+                && childType.GetCustomAttributes(typeof(SRHiddenAttribute), false).Length <= 0;
+        }
+    }
 }

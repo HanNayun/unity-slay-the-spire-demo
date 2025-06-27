@@ -1,34 +1,35 @@
-using System;
-using UnityEditor.Compilation;
 using UnityEngine;
 
-public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+namespace _Scripts.General
 {
-    public static T Instance { get; private set; }
-
-    protected void Awake()
+    public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
-        if (Instance is not null)
+        public static T Instance { get; private set; }
+
+        protected void Awake()
         {
-            Destroy(gameObject);
-            return;
+            if (Instance is not null)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            Instance = this as T;
         }
 
-        Instance = this as T;
+        protected void OnApplicationQuit()
+        {
+            Instance = null;
+            Destroy(gameObject);
+        }
     }
 
-    protected void OnApplicationQuit()
+    public abstract class PersistentSingleton<T> : Singleton<T> where T : MonoBehaviour
     {
-        Instance = null;
-        Destroy(gameObject);
-    }
-}
-
-public abstract class PersistentSingleton<T> : Singleton<T> where T : MonoBehaviour
-{
-    protected virtual void Awake()
-    {
-        base.Awake();
-        DontDestroyOnLoad(gameObject);
+        protected virtual void Awake()
+        {
+            base.Awake();
+            DontDestroyOnLoad(gameObject);
+        }
     }
 }

@@ -1,9 +1,9 @@
+using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace _Scripts.Models
 {
-    [System.Serializable]
+    [Serializable]
     public abstract class TargetMode
     {
         public abstract List<CombatantView> GetTargets();
